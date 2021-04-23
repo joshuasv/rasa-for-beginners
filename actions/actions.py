@@ -64,7 +64,7 @@ class ValidateHealthForm(FormValidationAction):
     tracker: Tracker,
     domain: DomainDict,
   ) -> Optional[List[Text]]:
-    print("[SLOTS]", tracker.slots) 
+    #print("[SLOTS]", tracker.slots) 
     #print("[REQUESTED]", tracker.slots.get('requested_slot'))
     #print("[LAST_ACT]", tracker.latest_action_name)
     #print("[LTST_MSG]", tracker.get_intent_of_latest_message())
@@ -83,9 +83,6 @@ class ValidateHealthForm(FormValidationAction):
     domain: Dict
   ) -> Dict[Text, Any]:
     
-    print("==>", tracker.get_last_event_for(
-      event_type="action", 
-      exclude=["health_form"])['name'])
     if (not tracker.slots.get('requested_slot') == "confirm_exercise" or tracker.get_last_event_for(event_type="action", exclude=["health_form"], skip=1)['name'] == "utter_ask_continue"):
       return {}
       
