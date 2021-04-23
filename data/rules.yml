@@ -1,0 +1,41 @@
+version: "2.0"
+
+rules:
+  - rule: Activate Form
+    steps:
+    - action: utter_greet
+    - intent: affirm
+    - action: health_form
+    - active_loop: health_form
+
+  - rule: Submit Form
+    condition:
+    - active_loop: health_form
+    steps:
+    - action: health_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_submit_form
+    - action: utter_slots_values
+
+  - rule: Ask continue deny
+    condition:
+    - active_loop: health_form
+    steps:
+    - action: utter_ask_continue
+    - intent: deny
+    - action: action_deactivate_loop
+    - active_loop: null
+    - action: utter_goodbye
+
+  - rule: Ask continue confirm
+    condition:
+    - active_loop: health_form
+    steps:
+    - action: utter_ask_continue
+    - intent: affirm
+    - action: health_form
+    - active_loop: null
+    - action: action_submit_form
+    - action: utter_slots_values
